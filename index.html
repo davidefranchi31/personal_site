@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio personale di Davide Franchi: embedded systems, IoT, robotica e AI pratica per l'industria intelligente." />
+  <title>Davide Franchi | Embedded Systems, IoT & Practical AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050914;
+      --bg-card: rgba(15, 23, 42, 0.78);
+      --text: #e5edf7;
+      --muted: #9fb1c7;
+      --muted-2: #6f8199;
+      --cyan: #22d3ee;
+      --blue: #3b82f6;
+      --border: rgba(148, 163, 184, 0.22);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 24px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(34, 211, 238, 0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(5, 9, 20, 0.78);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .nav-inner {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      font-size: 1.1rem;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--cyan);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-weight: 800;
+      font-size: 0.94rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34, 211, 238, 0.55);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #03111e;
+      border: none;
+      box-shadow: 0 16px 44px rgba(34, 211, 238, 0.22);
+    }
+
+    .btn-ghost {
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 130px 0 80px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 54px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: var(--cyan);
+    }
+
+    h1 {
+      font-size: clamp(2.65rem, 7vw, 5.6rem);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 720px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--text);
+      letter-spacing: -0.04em;
+    }
+
+    .stat span {
+      color: var(--muted-2);
+      font-size: 0.86rem;
+    }
+
+    .profile-card {
+      background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), rgba(15, 23, 42, 0.7));
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-box {
+      width: 300px;
+      height: 390px;
+      margin: 0 auto 20px auto;
+      border-radius: 26px;
+      overflow: hidden;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      background: #0f172a;
+    }
+
+    .photo-placeholder {
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .profile-info h2 {
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .profile-info p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      background: rgba(34, 211, 238, 0.08);
+      color: #bdf7ff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    section {
+      padding: 92px 0;
+      scroll-margin-top: 86px;
+    }
+
+    .section-head {
+      margin-bottom: 34px;
+      max-width: 830px;
+    }
+
+    .section-kicker {
+      color: var(--cyan);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.35rem);
+      line-height: 1.02;
+      letter-spacing: -0.065em;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(34, 211, 238, 0.38);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .card ul {
+      padding-left: 18px;
+      margin-top: 10px;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.22);
+      color: var(--cyan);
+      font-weight: 900;
+    }
+
+    .highlight-box {
+      border-radius: 32px;
+      padding: 34px;
+      border: 1px solid rgba(34, 211, 238, 0.24);
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.12), rgba(59, 130, 246, 0.08)), rgba(15, 23, 42, 0.76);
+      box-shadow: var(--shadow);
+    }
+
+    .quote {
+      font-size: clamp(1.55rem, 3vw, 2.55rem);
+      line-height: 1.16;
+      letter-spacing: -0.055em;
+      font-weight: 900;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .mini-tag {
+      border: 1px solid var(--border);
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 20px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.72);
+    }
+
+    .timeline-date {
+      color: var(--cyan);
+      font-weight: 900;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .footer {
+      padding: 34px 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      color: var(--muted-2);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 74px;
+        left: 20px;
+        right: 20px;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(5, 9, 20, 0.96);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 28px, var(--max-width));
+      }
+
+      section {
+        padding: 68px 0;
+      }
+
+      .hero {
+        padding-top: 112px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .highlight-box,
+      .card {
+        padding: 20px;
+      }
+
+      .photo-box {
+        width: 250px;
+        height: 325px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">Davide<span>.</span>Franchi</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#about">Profilo</a>
+        <a href="#positioning">Visione</a>
+        <a href="#help">Valore</a>
+        <a href="#skills">Competenze</a>
+        <a href="#projects">Progetti</a>
+        <a href="#experience">Esperienze</a>
+        <a href="#contact">Contatti</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn">Menu</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Embedded Systems · IoT · Practical AI</div>
+          <h1>Costruire sistemi embedded intelligenti per un'industria più sicura.</h1>
+          <p>Sono Davide Franchi, studente di Ingegneria Elettronica a Trieste. Connetto elettronica, AI e persone per trasformare sistemi complessi in soluzioni pratiche, sostenibili e comprensibili.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://www.linkedin.com/in/davide-franchi-9966383b9/" target="_blank" rel="noopener">Vai al mio LinkedIn</a>
+            <a class="btn btn-ghost" href="#projects">Vedi i progetti</a>
+            <a class="btn btn-ghost" href="mailto:davide.franchi31@gmail.com">Scrivimi</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong>6+</strong><span>anni di lavoro a contatto con clienti e team</span></div>
+            <div class="stat"><strong>15</strong><span>anni di sport di squadra e disciplina</span></div>
+            <div class="stat"><strong>3°</strong><span>anno di Ingegneria Elettronica</span></div>
+          </div>
+        </div>
+
+        <aside class="profile-card reveal" aria-label="Scheda personale">
+          <div class="photo-box">
+            <img src="profile.jpg" alt="Foto profilo di Davide Franchi" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="photo-placeholder" style="display:none;">Inserisci una foto chiamata <strong>profile.jpg</strong> nella stessa cartella del file HTML.</div>
+          </div>
+          <div class="profile-info">
+            <h2>Davide Franchi</h2>
+            <p>22 anni · Trieste, Italia</p>
+            <p>Università degli Studi di Trieste<br>Ingegneria Elettronica · Terzo anno</p>
+            <div class="tag-list">
+              <span class="tag">Embedded</span>
+              <span class="tag">IoT</span>
+              <span class="tag">Robotica</span>
+              <span class="tag">AI pratica</span>
+              <span class="tag">Meccatronica</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-kicker">Profilo personale</div>
+          <h2 class="section-title">Un profilo tecnico con mentalità pratica e collaborativa.</h2>
+          <p class="section-desc">Il mio interesse principale è nei sistemi embedded, nella robotica, nella sensoristica IoT e nella programmazione a basso livello. Voglio usare l'AI non come slogan, ma come supporto concreto per interpretare dati, migliorare sicurezza e rendere più efficienti sistemi fisici reali.</p>
+        </div>
+        <div class="grid grid-3">
+          <article class="card reveal">
+            <div class="icon">01</div>
+            <h3>Problem solver pragmatico</h3>
+            <p>Mi interessa risolvere problemi complessi con soluzioni semplici, affidabili e sostenibili. La tecnologia deve essere utile, non solo avanzata.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">02</div>
+            <h3>Ponte tra tecnica e bisogni reali</h3>
+            <p>Voglio collegare elettronica, software, dati e AI con obiettivi operativi chiari, parlando sia il linguaggio tecnico sia quello pratico dei team.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">03</div>
+            <h3>Collaborazione e supporto</h3>
+            <p>Il lavoro nel bar, il calcio e le ripetizioni mi hanno insegnato comunicazione, pressione, disciplina e capacità di aiutare gli altri.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="positioning">
+      <div class="container">
+        <div class="highlight-box reveal">
+          <div class="section-kicker">Visione professionale</div>
+          <p class="quote">Voglio diventare un ingegnere orientato alla meccatronica, capace di integrare embedded systems, dati di sensori, robotica e AI assistita per risolvere problemi industriali reali.</p>
+          <p class="muted" style="margin-top:18px;">Il mio obiettivo è crescere in contesti deep-tech, aerospace e meccatronici dove affidabilità, precisione tecnica e capacità di lavorare in team sono fondamentali.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="help">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-kicker">Valore che porto</div>
+          <h2 class="section-title">Trasformare complessità tecnica in soluzioni pratiche.</h2>
+          <p class="section-desc">Il mio contributo nasce dall'unione tra elettronica, sistemi embedded, AI pratica e capacità relazionali. Voglio aiutare team tecnici a costruire prototipi, leggere meglio i dati e sviluppare soluzioni più sicure, chiare e sostenibili.</p>
+        </div>
+        <div class="grid grid-3">
+          <article class="card reveal">
+            <h3>Embedded & prototipazione</h3>
+            <p>Realizzazione e studio di piccoli sistemi con Arduino, Raspberry Pi, sensori e logiche di controllo.</p>
+          </article>
+          <article class="card reveal">
+            <h3>AI come supporto tecnico</h3>
+            <p>Uso dell'intelligenza artificiale come strumento di analisi, ragionamento e supporto decisionale, non come sostituto delle competenze ingegneristiche.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Team e comunicazione</h3>
+            <p>Capacità di lavorare sotto pressione, confrontarmi con persone diverse e spiegare concetti complessi in modo comprensibile.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-kicker">Competenze</div>
+          <h2 class="section-title">Tecnica, ragionamento e collaborazione.</h2>
+        </div>
+        <div class="grid grid-3">
+          <article class="card reveal">
+            <div class="icon">E</div>
+            <h3>Embedded Systems</h3>
+            <p>Arduino, Raspberry Pi, logiche di controllo, prototipazione e integrazione sensori.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">F</div>
+            <h3>Firmware & Low-Level</h3>
+            <p>Interesse per programmazione a basso livello, gestione hardware e logiche real-time.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">R</div>
+            <h3>Robotica & IoT</h3>
+            <p>Sistemi connessi, monitoraggio, automazione e comunicazione tra mondo fisico e digitale.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">AI</div>
+            <h3>AI-Assisted Engineering</h3>
+            <p>Uso intelligente dell'AI per analisi, supporto decisionale e comprensione di dati tecnici.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">P</div>
+            <h3>Problem Solving</h3>
+            <p>Approccio strutturato: capire il problema, scomporlo, prototipare, testare e migliorare.</p>
+          </article>
+          <article class="card reveal">
+            <div class="icon">T</div>
+            <h3>Team Collaboration</h3>
+            <p>Comunicazione, supporto, lavoro sotto pressione e capacità di creare un clima collaborativo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-kicker">Progetti</div>
+          <h2 class="section-title">Esperimenti pratici tra sensori, automazione e sistemi embedded.</h2>
+        </div>
+        <div class="grid grid-3">
+          <article class="card reveal">
+            <div class="icon">01</div>
+            <h3>Sistema apriporta automatico</h3>
+            <p>Sistema basato su Arduino/Raspberry per apertura controllata e automatizzata di una porta.</p>
+            <div class="project-meta">
+              <span class="mini-tag">Arduino</span>
+              <span class="mini-tag">Raspberry Pi</span>
+              <span class="mini-tag">Sensori</span>
+            </div>
+            <p><strong>Challenge:</strong> integrare automazione, logica di controllo e affidabilità fisica.</p>
+            <p><strong>Learned:</strong> prototipazione embedded e collegamento tra hardware e comportamento reale.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon">02</div>
+            <h3>Timer da scrivania con allarme</h3>
+            <p>Dispositivo embedded orientato alla produttività, con gestione del tempo e allarme.</p>
+            <div class="project-meta">
+              <span class="mini-tag">Firmware</span>
+              <span class="mini-tag">UX fisica</span>
+              <span class="mini-tag">Hardware</span>
+            </div>
+            <p><strong>Challenge:</strong> creare un comportamento semplice, chiaro e usabile.</p>
+            <p><strong>Learned:</strong> importanza dell'interazione utente anche nei piccoli sistemi elettronici.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon">03</div>
+            <h3>Rilevatore di movimento</h3>
+            <p>Sistema basato su sensori per rilevare movimento e attivare una logica di alert.</p>
+            <div class="project-meta">
+              <span class="mini-tag">Motion sensing</span>
+              <span class="mini-tag">Alert</span>
+              <span class="mini-tag">Safety</span>
+            </div>
+            <p><strong>Challenge:</strong> interpretare segnali da sensori e generare risposte affidabili.</p>
+            <p><strong>Learned:</strong> relazione tra sensoristica, controllo e sicurezza operativa.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-kicker">Esperienze trasversali</div>
+          <h2 class="section-title">La mia parte umana è parte della mia identità ingegneristica.</h2>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item reveal">
+            <div class="timeline-date">6 anni</div>
+            <div>
+              <h3>Lavoro in bar</h3>
+              <p class="muted">Teamwork, contatto con il cliente, gestione dello stress, affidabilità, adattabilità e comunicazione in situazioni ad alta pressione.</p>
+            </div>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-date">15 anni</div>
+            <div>
+              <h3>Calcio e sport di squadra</h3>
+              <p class="muted">Disciplina, collaborazione, resilienza, leadership distribuita e mentalità orientata al gruppo.</p>
+            </div>
+          </article>
+          <article class="timeline-item reveal">
+            <div class="timeline-date">Tutoring</div>
+            <div>
+              <h3>Ripetizioni di matematica e fisica</h3>
+              <p class="muted">Capacità di spiegare concetti complessi, pazienza, mentoring e ragionamento strutturato.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-kicker">Contatti</div>
+          <h2 class="section-title">Costruiamo sistemi più chiari, utili e intelligenti.</h2>
+          <p class="section-desc">Sono interessato a progetti, stage e collaborazioni in embedded systems, IoT, meccatronica, aerospace e AI applicata a problemi industriali.</p>
+        </div>
+        <div class="contact-grid">
+          <article class="card reveal">
+            <h3>Email</h3>
+            <p>davide.franchi31@gmail.com</p>
+            <br>
+            <a class="btn btn-primary" href="mailto:davide.franchi31@gmail.com">Scrivimi</a>
+          </article>
+          <article class="card reveal">
+            <h3>LinkedIn</h3>
+            <p>Profilo professionale e aggiornamenti sul percorso.</p>
+            <br>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/in/davide-franchi-9966383b9/" target="_blank" rel="noopener">Apri LinkedIn</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2026 Davide Franchi · Embedded Systems, IoT & Practical AI</div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    const links = document.querySelectorAll('.nav-links a');
+
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+    links.forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    const sections = document.querySelectorAll('section[id]');
+
+    function setActiveLink() {
+      const scrollY = window.scrollY + 120;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        const currentLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
+
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          links.forEach(link => link.classList.remove('active'));
+          if (currentLink) currentLink.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', setActiveLink);
+    setActiveLink();
+
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
